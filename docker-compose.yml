@@ -1,0 +1,17 @@
+services:
+  # Base de données pour Warp Humor
+  warp_db:
+    image: postgres:15-alpine
+    container_name: warphumor_postgres
+    restart: always
+    ports:
+      - "5433:5432" # EXTÉRIEUR (VM) : INTÉRIEUR (Docker)
+    environment:
+      POSTGRES_USER: warp_user
+      POSTGRES_PASSWORD: warp_password
+      POSTGRES_DB: warp_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
