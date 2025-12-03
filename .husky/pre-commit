@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Liste des termes interdits (Case insensitive)
-FORBIDDEN="Warhammer|Space Marine|Imperium|Eldar|Necron|40k|Games Workshop"
+FORBIDDEN="Warhammer|Space Marine|Space Marines|Imperium|Eldar|Necron|40k|Games Workshop"
 
 # Recherche des termes dans les fichiers (.ts, .tsx, .json, .md ET .txt pour le test)
 echo "🛡️  SCANNING FOR COPYRIGHT INFRINGEMENT (DMCA SHIELD)..."
