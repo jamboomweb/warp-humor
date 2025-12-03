@@ -1,18 +1,16 @@
 #!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
 
 # Liste des termes interdits (Case insensitive)
 FORBIDDEN="Warhammer|Space Marine|Imperium|Eldar|Necron|40k|Games Workshop"
 
-# Recherche des termes dans les fichiers stagiés (.ts, .tsx, .json, .md)
-# On exclut le dossier .husky et les fichiers de lock
+# Recherche des termes dans les fichiers (.ts, .tsx, .json, .md ET .txt pour le test)
 echo "🛡️  SCANNING FOR COPYRIGHT INFRINGEMENT (DMCA SHIELD)..."
 
-if grep -rEwq "$FORBIDDEN" --include=\*.{ts,tsx,json,md} --exclude-dir={node_modules,dist,.git} .; then
+# J'ai ajouté ",txt" dans l'include ci-dessous
+if grep -rEwq "$FORBIDDEN" --include=\*.{ts,tsx,json,md,txt} --exclude-dir={node_modules,dist,.git} .; then
     echo "❌ ERREUR CRITIQUE : Terme interdit détecté !"
     echo "   La propriété intellectuelle de Games Workshop a été trouvée."
-    echo "   Veuillez remplacer ces termes par leurs équivalents parodiques (ex: 'Space Bros', 'Nécro-Bots')."
-    echo "   (Voir grep output ci-dessus pour localiser l'erreur)"
+    echo "   Veuillez remplacer ces termes par leurs équivalents parodiques."
     exit 1
 fi
 
