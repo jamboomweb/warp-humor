@@ -1,13 +1,23 @@
 #!/bin/sh
 
-# Liste des termes interdits (Case insensitive)
-FORBIDDEN="Warhammer|Space Marine|Space Marines|Imperium|Eldar|Necron|40k|Games Workshop"
+# Liste des termes interdits
+FORBIDDEN="Warhammer|Space Marine|Imperium|Eldar|Necron|40k|Games Workshop"
 
-# Recherche des termes dans les fichiers (.ts, .tsx, .json, .md ET .txt pour le test)
 echo "🛡️  SCANNING FOR COPYRIGHT INFRINGEMENT (DMCA SHIELD)..."
 
-# J'ai ajouté ",txt" dans l'include ci-dessous
-if grep -rEq "$FORBIDDEN" --include=\*.{ts,tsx,json,md,txt} --exclude-dir={node_modules,dist,.git} .; then
+# Correction : On utilise plusieurs --include pour être sûr que grep les prenne tous
+# On ajoute -I pour ignorer les fichiers binaires au cas où
+if grep -rEqI "$FORBIDDEN" \
+    --include="*.ts" \
+    --include="*.tsx" \
+    --include="*.json" \
+    --include="*.md" \
+    --include="*.txt" \
+    --exclude-dir="node_modules" \
+    --exclude-dir="dist" \
+    --exclude-dir=".git" \
+    .; then
+    
     echo "❌ ERREUR CRITIQUE : Terme interdit détecté !"
     echo "   La propriété intellectuelle de Games Workshop a été trouvée."
     echo "   Veuillez remplacer ces termes par leurs équivalents parodiques."

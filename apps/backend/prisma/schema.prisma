@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// --- UTILISATEURS ---
+model User {
+  id        String   @id @default(uuid()) // ID interne
+  deviceId  String   @unique              // L'ID du téléphone (Guest Login)
+  username  String?  // Optionnel pour le MVP
+
+  // Économie & Gameplay
+  scrapBalance            Int @default(0) // Les "boulons" pour crafter
+  packsSinceLastLegendary Int @default(0) // Le fameux Pity Timer (Anti-Ragequit)
+  
+  lastFreePackAt DateTime? // Pour le cooldown 24h
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  collection UserCollection[]
+}
+
+// --- CARTES (Design Data) ---
+// Ces données sont statiques, définies par nous.
+model Card {
+  id        String   @id // ex: "necro_bot_001" (String manuel pour lisibilité)
+  name      String
+  rarity    String   // 'common', 'rare', 'legendary'
+  setId     String   // ex: 'album_orks' (Tags)
+  imageUrl  String
+
+  users     UserCollection[]
+}
+
+// --- COLLECTION (Table de liaison) ---
+// Relie un User à une Carte
+model UserCollection {
+  id        Int      @id @default(autoincrement())
+  
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  
+  card      Card     @relation(fields: [cardId], references: [id])
+  cardId    String
+
+  quantity  Int      @default(1) // Si on change la règle du Scrap plus tard
+  obtainedAt DateTime @default(now())
+
+  @@unique([userId, cardId]) // Un user ne peut avoir qu'une seule entrée par carte
+}
