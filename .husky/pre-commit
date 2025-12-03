@@ -7,7 +7,7 @@ FORBIDDEN="Warhammer|Space Marine|Space Marines|Imperium|Eldar|Necron|40k|Games 
 echo "🛡️  SCANNING FOR COPYRIGHT INFRINGEMENT (DMCA SHIELD)..."
 
 # J'ai ajouté ",txt" dans l'include ci-dessous
-if grep -rEwq "$FORBIDDEN" --include=\*.{ts,tsx,json,md,txt} --exclude-dir={node_modules,dist,.git} .; then
+if grep -rEq "$FORBIDDEN" --include=\*.{ts,tsx,json,md,txt} --exclude-dir={node_modules,dist,.git} .; then
     echo "❌ ERREUR CRITIQUE : Terme interdit détecté !"
     echo "   La propriété intellectuelle de Games Workshop a été trouvée."
     echo "   Veuillez remplacer ces termes par leurs équivalents parodiques."
